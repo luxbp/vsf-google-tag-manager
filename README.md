@@ -1,2 +1,3 @@
-# vsf-google-tag-manager
-Vue Storefront module for Google Tag Manager
+# vsf-gtm
+
+Google Tag Manager module for Vue Storeftont.

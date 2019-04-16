@@ -1,5 +1,5 @@
 import rootStore from '@vue-storefront/store'
-
+import { SET_STATUS } from '../store/mutation-types'
 
 const injectJs = function(w,d,s,l,i) {
   w[l]=w[l]||[];
@@ -16,7 +16,9 @@ const injectJs = function(w,d,s,l,i) {
 
 export function afterRegistration({ Vue, config, store, isServer }){
   if (!isServer && config.googleTagManager && config.googleTagManager.code) {
-    if(!((<any>window).dataLayer && (<any>window).dataLayer.event && (<any>window).dataLayer.event === 'gtm.js'))
-      injectJs(window, document, 'script', 'dataLayer', config.googleTagManager.code);
+      if(!store.state['vsf-google-tag-manager'].registered) {
+        injectJs(window, document, 'script', 'dataLayer', config.googleTagManager.code);
+        store.commit('vsf-google-tag-manager/' + SET_STATUS, true)
+      }
   }
 }

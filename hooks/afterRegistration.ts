@@ -1,6 +1,5 @@
 import rootStore from '@vue-storefront/store'
 
-let registered = false
 
 const injectJs = function(w,d,s,l,i) {
   w[l]=w[l]||[];
@@ -13,11 +12,12 @@ const injectJs = function(w,d,s,l,i) {
   j.async=true;
   j.src= 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
   f.parentNode.insertBefore(j, f);
-  registered = true
+  (<any>window).localStorage.setItem('vsf-gtm-registered', true)
 }
 
 export function afterRegistration({ Vue, config, store, isServer }){
-  if (!isServer && !registered && config.googleTagManager && config.googleTagManager.code) {
-    injectJs(window, document, 'script', 'dataLayer', config.googleTagManager.code);
+  if (!isServer && config.googleTagManager && config.googleTagManager.code) {
+    if(!((<any>window).dataLayer && (<any>window).dataLayer.event && (<any>window).dataLayer.event === 'gtm.js'))
+      injectJs(window, document, 'script', 'dataLayer', config.googleTagManager.code);
   }
 }

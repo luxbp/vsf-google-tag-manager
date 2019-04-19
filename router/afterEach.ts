@@ -3,12 +3,13 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { Route } from 'vue-router' 
 
 import evProductClick from '../events/ProductClick'
+import evShoppingCard from '../events/ShoppingCard'
 
 export function afterEach (to: Route, from: Route) {
     const currency = rootStore.state.storeView.i18n.currencyCode
   
     // Each product's route has in name 'product' phrase!
-    if(!isServer && to.name !== null) {
+    if(!isServer && to.name !== null && from.name !== null) {
         if (to.name.match(/product/)) {
             let source = null
             if(rootStore.state.ui.searchpanel) {
@@ -18,7 +19,12 @@ export function afterEach (to: Route, from: Route) {
             } else {
                 source = "Category page"
             }
-            evProductClick(rootStore.state.product.current, currency, source)
+            evProductClick(
+                rootStore.state.product.current, 
+                currency, 
+                source
+            )
+            evShoppingCard(currency)
         }
     }
 }

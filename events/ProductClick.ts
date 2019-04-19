@@ -1,12 +1,5 @@
-interface ProductData {
-    name: string,
-    id: string,
-    price: number,
-    brand: string,
-    category: string,
-    variant: string,
-    quantity?: number
-}
+import { ProductData } from '../types/ProductData'
+import productCategoryName from '../util/productCategoryName'
 
 declare const dataLayer
 
@@ -16,13 +9,7 @@ export default (product, currency: string, source: string): void => {
             throw new Error("GTM not installed")
         }
 
-        let categoryName = null
-
-        for(let category of product.category) {
-            if(category.category_id != 2) { // Not 'Wszystkie produkty'
-                categoryName = category.name
-            }
-        }
+        let categoryName = productCategoryName(product)
 
         const productData: ProductData = {
             name: product.name,
@@ -37,8 +24,9 @@ export default (product, currency: string, source: string): void => {
         dataLayer.push({
             'event': 'productClick',
             'ecommerce': {
+                'currencyCode': currency,
                 'click': {
-                  'actionField': {'list': source},      // Optional list property.
+                  'actionField': {'list': source},
                   'products': [productData]
                  }
             }

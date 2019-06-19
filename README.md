@@ -5,7 +5,7 @@
 ## Configuration
 Inside the config add:
 ```
-googleTagManager: {
-  id: "GTM-XXXXXX"
+"googleTagManager": {
+  "id": "GTM-XXXXXX"
 }
 ```

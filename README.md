@@ -9,3 +9,13 @@ Inside the config add:
   "id": "GTM-XXXXXX"
 }
 ```
+
+## Installation
+Inside modules/index.ts, add:
+```
+import { VsfGoogleTagManager } from './vsf-google-tag-manager'
+```
+And below, inside **registerModules**, add:
+```
+VsfGoogleTagManager
+```

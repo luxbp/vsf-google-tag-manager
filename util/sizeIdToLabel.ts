@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 
 export default (index: number | string): string => {
     try {

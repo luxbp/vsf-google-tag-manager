@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { SET_STATUS } from '../store/mutation-types'
 import { searchImpression } from '../events/ProductImpression'
 

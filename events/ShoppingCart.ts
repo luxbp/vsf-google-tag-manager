@@ -3,7 +3,7 @@ import debounce from '../util/debounce'
 import { ProductData } from '../types/ProductData'
 import productCategoryName from '../util/productCategoryName'
 import sizeIdToLabel from '../util/sizeIdToLabel'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 
 declare const dataLayer
 

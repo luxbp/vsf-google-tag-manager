@@ -11,31 +11,32 @@ export function afterEach(to: Route, from: Route) {
   const currency = rootStore.state.storeView.i18n.currencyCode;
 
   // Each product's route has in name 'product' phrase!
-  if (!isServer && to.meta && to.meta.componentName) {
-    let source = 'Unset';
-    switch (to.meta.componentName) {
-    //   case 'category':
-    //     categoryImperssion(
-    //       rootStore.state.category.current.name,
-    //       rootStore.state.product.list.items,
-    //       currency
-    //     );
-    //     break;
-      case 'product':
-        if (from && from.name && JSON.stringify(from) !== JSON.stringify(to)) {
-          evProductClick(rootStore.state.product.current, currency, source);
-        }
-        // evProductDetails(rootStore.state.product.current, source);
-
-        break;
+  if (
+    !isServer &&
+    to.meta &&
+    to.meta.componentName &&
+    to.meta.componentName === 'product'
+  ) {
+    let source;
+    if (to.query && to.query.fromSearchResults) {
+      source = 'Searchpanel';
+    } else {
+      switch (to.meta.componentName) {
+        case 'category':
+          source = 'Category';
+          break;
+        case 'product':
+          source = "Product's view - Related";
+          break;
+        case 'home':
+          source = 'Homepage';
+          break;
+        default:
+          source = 'Unknown';
+          break;
+      }
     }
-    // if (rootStore.state.ui.searchpanel) {
-    //   source = 'Search';
-    // } else if (from.name !== null && from.name.match(/product/)) {
-    //   source = 'Related products in other product';
-    // } else {
-    //   source = 'Category page';
-    // }
+    evProductClick(rootStore.state.product.current, currency, source);
 
     if (!registeredShoppingCart) {
       evShoppingCart(currency);

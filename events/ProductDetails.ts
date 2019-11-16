@@ -18,7 +18,7 @@ export default (product, source: string): void => {
       price: product.specialPriceInclTax && product.specialPriceInclTax > 0
         ? product.specialPriceInclTax
         : product.priceInclTax,
-      brand: rootStore.state.config.googleTagManager.tag,
+      brand: rootStore.state.config.googleTagManager.brand,
       category,
       variant: product.childName ? product.childName : product.name,
       quantity: 1

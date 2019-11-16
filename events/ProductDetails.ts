@@ -1,36 +1,38 @@
-import { ProductData } from '../types/ProductData'
-import productCategoryName from '../util/productCategoryName'
-import sizeIdToLabel from '../util/sizeIdToLabel'
+import { ProductData } from '../types/ProductData';
+import productCategoryName from '../util/productCategoryName';
+import rootStore from '@vue-storefront/core/store';
 
-declare const dataLayer
+declare const dataLayer;
 
-export default (product, currency: string, source: string): void => {
-    try {
-        if(!('dataLayer' in window)) {
-            throw new Error("GTM not installed")
-        }
-
-        let categoryName = productCategoryName(product)
-
-        const productData: ProductData = {
-            name: product.name,
-            id: product.sku,
-            price: product.priceInclTax,
-            brand: 'Kubota',
-            category: categoryName,
-            variant: product.sku.split('-')[1],
-            quantity: product.qty
-        }
-
-        dataLayer.push({
-            'ecommerce': {
-                'detail': {
-                    'actionField': {'list': source},
-                    'products': [productData]
-                }
-            }
-        })
-    } catch(e) {
-        console.error(e.message)
+export default (product, source: string): void => {
+  try {
+    if (!('dataLayer' in window)) {
+      throw new Error('GTM not installed');
     }
-}
+
+    let category = productCategoryName(product);
+
+    const productData: ProductData = {
+      name: product.name,
+      id: product.sku,
+      price: product.specialPriceInclTax && product.specialPriceInclTax > 0
+        ? product.specialPriceInclTax
+        : product.priceInclTax,
+      brand: rootStore.state.config.googleTagManager.tag,
+      category,
+      variant: product.childName ? product.childName : product.name,
+      quantity: 1
+    };
+
+    dataLayer.push({
+      ecommerce: {
+        detail: {
+          actionField: { list: source },
+          products: [productData]
+        }
+      }
+    });
+  } catch (e) {
+    console.error(e.message);
+  }
+};

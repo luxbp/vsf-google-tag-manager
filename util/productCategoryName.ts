@@ -1,14 +1,5 @@
 export default (product): string => {
-    let categoryName = null
+    const categories = product.category && product.category.sort((a, b) => b.category_id - a.category_id)
 
-    if (!product.category) {
-        return null
-    }
-    for(let category of product.category) {
-        if(category.category_id != 2) { // Not 'Wszystkie produkty'
-            categoryName = category.name
-        }
-    }
-
-    return categoryName
+    return (categories && categories[0] && categories[0].name) ? categories[0].name : 'Unknown'
 }

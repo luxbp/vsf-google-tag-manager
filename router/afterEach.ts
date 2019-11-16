@@ -3,9 +3,6 @@ import { isServer } from '@vue-storefront/core/helpers';
 import { Route } from 'vue-router';
 
 import evProductClick from '../events/ProductClick';
-import evShoppingCart from '../events/ShoppingCart';
-
-let registeredShoppingCart = false;
 
 export function afterEach(to: Route, from: Route) {
   const currency = rootStore.state.storeView.i18n.currencyCode;
@@ -37,10 +34,5 @@ export function afterEach(to: Route, from: Route) {
       }
     }
     evProductClick(rootStore.state.product.current, currency, source);
-
-    if (!registeredShoppingCart) {
-      evShoppingCart(currency);
-      registeredShoppingCart = true;
-    }
   }
 }

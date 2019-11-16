@@ -25,7 +25,6 @@ export function afterRegistration({ Vue, config, store, isServer }){
   if (!isServer && config.googleTagManager && config.googleTagManager.id) {
       once('__GTM__REGISTER__', () => {
         injectJs(window, document, 'script', 'dataLayer', config.googleTagManager.id, () => {
-          alert('Registered')
         });
 
         EventBus.$on('gtm-impression', (product) => {

@@ -1,17 +1,18 @@
 import rootStore from '@vue-storefront/core/store'
 import { isServer } from '@vue-storefront/core/helpers'
-import { Route } from 'vue-router' 
+import { Route } from 'vue-router'
 
 import evProductClick from '../events/ProductClick'
 import evProductDetails from '../events/ProductDetails'
 import { categoryImperssion, searchImpression } from '../events/ProductImpression'
 import evShoppingCart from '../events/ShoppingCart'
+import evRouteChange from "../events/RouteChange";
 
 let registeredShoppingCart = false
 
 export function afterEach (to: Route, from: Route) {
     const currency = rootStore.state.storeView.i18n.currencyCode
-  
+
     // Each product's route has in name 'product' phrase!
     if(!isServer && to.name !== null) {
         let source = null
@@ -23,10 +24,12 @@ export function afterEach (to: Route, from: Route) {
             source = "Category page"
         }
 
+        evRouteChange(to, from)
+
         if (to.name.match(/product/) ) {
             evProductDetails(
-                rootStore.state.product.current, 
-                currency, 
+                rootStore.state.product.current,
+                currency,
                 source
             )
         }
@@ -40,16 +43,16 @@ export function afterEach (to: Route, from: Route) {
                 source = "Category page"
             }
             evProductClick(
-                rootStore.state.product.current, 
-                currency, 
+                rootStore.state.product.current,
+                currency,
                 source
             )
         } else if (to.name.match(/category/)) {
             let source = "Category page"
 
             categoryImperssion(
-                rootStore.state.category.current.name, 
-                rootStore.state.product.list.items, 
+                rootStore.state.category.current.name,
+                rootStore.state.product.list.items,
                 currency
             )
         }

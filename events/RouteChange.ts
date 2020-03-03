@@ -19,6 +19,7 @@ export default (to: Route, from: Route): void => {
 
         dataLayer.push({
             event: 'virtualPageView',
+            currentVirtualPage: to.name,
             page: {
                 to: pick(to, keys),
                 from: pick(from, keys)

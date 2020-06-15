@@ -7,7 +7,7 @@ export const mutations: MutationTree<GTMState> = {
     state.registered = status
   },
   [types.SET_SOURCE] (state, source) {
-    state.last_source = state.source;
+    // state.last_source = state.source; todo fix callstack issue
     state.source = source
   },
   [types.SET_UNSUBSCRIBERS] (state, unsubscribers) {

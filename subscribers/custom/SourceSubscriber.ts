@@ -23,6 +23,6 @@ export default (store) => store.subscribe((mutation, state) => {
   }
 
   if (type.endsWith('')) {
-    setSource('Category Page')
+    // setSource('Category Page')
   }
 })

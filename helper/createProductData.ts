@@ -1,15 +1,17 @@
-import rootStore from '@vue-storefront/core/store'
 import createProductCategoryName from './createProductCategoryName';
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
 
-export default (product, source = 'default', qty = 1) => {
+export default (product, opts: Record<string, any> = {}) => {
+  const view = currentStoreView();
   return {
     name: product.name,
     id: product.sku,
     price: product.priceInclTax,
-    brand: product.brand || rootStore.state.config.defaultStoreCode,
+    brand: product.brand || view.storeCode,
     category: createProductCategoryName(product),
-    list: source,
+    list: opts.source,
     variant: product.sku.split('-')[1],
-    quantity: product.qty || qty
+    quantity: product.qty || opts.qty,
+    position: opts.position || 1
   }
 }

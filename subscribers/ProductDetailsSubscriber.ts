@@ -1,17 +1,18 @@
-import * as types from '@vue-storefront/core/modules/order/store/mutation-types';
 import createProductData from '../helper/createProductData';
-import createProductCategoryName from '../helper/createProductCategoryName';
+import {CATALOG_SET_PRODUCT_CURRENT} from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
+import rootStore from '@vue-storefront/core/store'
+import {KEY} from '../index';
 
 declare const dataLayer;
 
 export default (store) => store.subscribe((mutation, state) => {
   const type = mutation.type;
 
-  if (type.endsWith('product/product/SET_PRODUCT_CURRENT')) {
+  if (type.endsWith(CATALOG_SET_PRODUCT_CURRENT)) {
     dataLayer.push({
       'ecommerce': {
         'detail': {
-          'actionField': {'list': createProductCategoryName(mutation.payload)},
+          'actionField': {'list': rootStore.state[KEY].source || null},
           'products': [createProductData(mutation.payload)]
         }
       }

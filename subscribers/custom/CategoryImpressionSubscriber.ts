@@ -10,6 +10,11 @@ export default (store) => store.subscribe((mutation, state) => {
   const type = mutation.type;
 
   if (type.endsWith(types.CATEGORY_UPD_CURRENT_CATEGORY)) {
-    // dataLayer.push([])
+    dataLayer.push({
+      event: 'categoryImpression',
+      ecommerce: {
+        impression: mutation.payload
+      }
+    })
   }
 })

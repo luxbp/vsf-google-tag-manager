@@ -1,14 +1,12 @@
 import rootStore from '@vue-storefront/core/store'
-import {isServer} from '@vue-storefront/core/helpers'
-import {SET_SOURCE} from "../../store/mutation-types";
+import {SET_SOURCE} from '../../store/mutation-types';
+import {KEY} from '../../index';
 
 export default (store) => store.subscribe((mutation, state) => {
   const type = mutation.type;
   const payload = mutation.payload;
 
-  const setSource = (source) => {
-    rootStore.commit('vsf-google-tag-manager/' + SET_SOURCE, source)
-  };
+  const setSource = source => rootStore.commit(KEY + '/' + SET_SOURCE, source);
 
   if (type.endsWith('ui/setSearchpanel') && payload) {
     setSource('Search')
@@ -20,7 +18,11 @@ export default (store) => store.subscribe((mutation, state) => {
 
   if (type.endsWith('route/ROUTE_CHANGED')) {
     if (payload.to.path === '/') {
-      setSource('Homepage')
+      setSource('Category Page')
     }
+  }
+
+  if (type.endsWith('')) {
+    setSource('Category Page')
   }
 })

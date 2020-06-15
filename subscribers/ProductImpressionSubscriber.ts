@@ -1,36 +1,32 @@
-import * as types from '@vue-storefront/core/modules/order/store/mutation-types';
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
+import createProductData from '../helper/createProductData';
+import {
+  CATALOG_UPD_PRODUCTS,
+  CATALOG_UPD_RELATED
+} from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
 
 declare const dataLayer;
 
 export default (store) => store.subscribe((mutation, state) => {
   const type = mutation.type;
   const payload = mutation.payload;
-  if (type.endsWith('product/product/UPD_RELATED')) {
+  const storeView = currentStoreView();
+  if (type.endsWith(CATALOG_UPD_RELATED)) { // Related Products
     dataLayer.push({
       'ecommerce': {
-        'currencyCode': 'EUR',                       // Local currency is optional.
-        'impressions': [
-          {
-            'name': 'Triblend Android T-Shirt',       // Name or ID is required.
-            'id': '12345',
-            'price': '15.25',
-            'brand': 'Google',
-            'category': 'Apparel',
-            'variant': 'Gray',
-            'list': 'Search Results',
-            'position': 1
-          },
-          {
-            'name': 'Donut Friday Scented T-Shirt',
-            'id': '67890',
-            'price': '33.75',
-            'brand': 'Google',
-            'category': 'Apparel',
-            'variant': 'Black',
-            'list': 'Search Results',
-            'position': 2
-          }]
+        'currencyCode': storeView.i18n.currencyCode,
+        'impressions': payload.items.map((product, index) => createProductData(product, {position: index}))
       }
     });
   }
+
+  if (type.endsWith(CATALOG_UPD_PRODUCTS)) { // Category Pages
+    dataLayer.push({
+      'ecommerce': {
+        'currencyCode': storeView.i18n.currencyCode,
+        'impressions': payload.products.map((product, index) => createProductData(product, {position: index}))
+      }
+    });
+  }
+  // todo featured carousel impression
 })

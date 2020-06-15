@@ -6,8 +6,8 @@ export default (store) => store.subscribe((mutation, state) => {
   const type = mutation.type;
 
   // stub
-  let promoObj: any = {}
-  if (type.endsWith(types.ORDER_PLACE_ORDER)) {
+  let promoObj: any = {};
+  if (type.endsWith('NOT_YET_IMPLEMENTED')) {
     dataLayer.push({
       'event': 'promotionClick',
       'ecommerce': {

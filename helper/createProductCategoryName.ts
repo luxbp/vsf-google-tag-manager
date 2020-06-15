@@ -1,4 +1,5 @@
 import rootStore from '@vue-storefront/core/store';
+import {KEY} from '../index';
 
 export default (product): string => {
   let currentCategory = null;
@@ -15,5 +16,5 @@ export default (product): string => {
     }
   }
 
-  return null
+  return rootStore.state[KEY].source || null
 }

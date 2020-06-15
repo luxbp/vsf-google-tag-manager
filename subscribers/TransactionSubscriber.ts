@@ -1,4 +1,3 @@
-import * as types from '@vue-storefront/core/modules/order/store/mutation-types';
 import createProductData from '../helper/createProductData';
 import config from 'config';
 
@@ -12,7 +11,7 @@ export default (store) => store.subscribe((mutation, state) => {
   const type = mutation.type;
   const payload = mutation.payload;
 
-  if (type.endsWith('order/order/LAST_ORDER_CONFIRMATION') && config.googleTagManager.trackTransactions) {
+  if (type.endsWith('order/order/LAST_ORDER_CONFIRMATION')) {
     const orderId = payload.confirmation.backendOrderId;
     const products = payload.order.products.map(product => createProductData(product));
     store.dispatch(

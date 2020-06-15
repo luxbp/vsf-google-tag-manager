@@ -1,4 +1,5 @@
 import rootStore from '@vue-storefront/core/store'
+import {KEY} from '../index';
 import {SET_STATUS, SET_UNSUBSCRIBERS} from '../store/mutation-types'
 import RouteChangeSubscriber from '../subscribers/custom/RouteChangeSubscriber';
 import ProductAddToCartSubscriber from '../subscribers/ProductAddToCartSubscriber';
@@ -7,7 +8,11 @@ import ProductDetailSubscriber from '../subscribers/ProductDetailsSubscriber';
 import TransactionSubscriber from '../subscribers/TransactionSubscriber';
 import ProductClickSubscriber from '../subscribers/ProductClickSubscriber';
 import SourceSubscriber from '../subscribers/custom/SourceSubscriber';
-import {KEY} from '../index';
+import ProductImpressionSubscriber from '../subscribers/ProductImpressionSubscriber';
+import PromotionImpression from '../subscribers/PromotionImpression';
+import PromotionClicks from '../subscribers/PromotionClicks';
+import CategoryImpressionSubscriber from '../subscribers/custom/CategoryImpressionSubscriber';
+import CheckoutFunnelSubscriber from '../subscribers/CheckoutFunnelSubscriber';
 
 declare const window;
 
@@ -29,24 +34,28 @@ export function afterRegistration ({Vue, config, store, isServer}) {
   if (!isServer && config.googleTagManager && config.googleTagManager.id) {
     if (!store.state[KEY].registered) {
       injectJs(window, document, 'script', 'dataLayer', config.googleTagManager.id);
-      store.commit(KEY + '/' + SET_STATUS, true)
+      rootStore.commit(KEY + '/' + SET_STATUS, true)
     }
 
     window.dataLayer = window.dataLayer || [];
 
     let subscribers = [
       RouteChangeSubscriber,
+      CategoryImpressionSubscriber,
+      ProductImpressionSubscriber,
       ProductClickSubscriber,
       ProductDetailSubscriber,
       ProductAddToCartSubscriber,
       ProductRemoveFromCartSubscriber,
+      CheckoutFunnelSubscriber,
       TransactionSubscriber,
-      SourceSubscriber
+      SourceSubscriber,
+      PromotionImpression,
+      PromotionClicks
     ];
-    subscribers.map((register) => {
-      register(store)
-    });
 
-    store.commit(KEY + '/' + SET_UNSUBSCRIBERS, subscribers)
+    subscribers.map(register => register(store));
+
+    rootStore.commit(KEY + '/' + SET_UNSUBSCRIBERS, subscribers)
   }
 }

@@ -10,7 +10,7 @@ const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   router: { beforeEach, afterEach },
   afterRegistration,
-  store: { modules: [{ key: KEY, module }] },
+  store: { modules: [{ key: KEY, module }] }
 }
 
 export const VsfGoogleTagManager = new VueStorefrontModule(moduleConfig)

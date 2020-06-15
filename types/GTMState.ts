@@ -1,3 +1,6 @@
 export interface GTMState {
-  registered: boolean
+  registered: boolean,
+  source: string|null,
+  last_source: string|null,
+  unsubscribers: any[]
 }

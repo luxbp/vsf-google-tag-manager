@@ -1,6 +1,7 @@
 import rootStore from '@vue-storefront/core/store'
 import {SET_SOURCE} from '../../store/mutation-types';
 import {KEY} from '../../index';
+import * as categoryTypes from '@vue-storefront/core/modules/catalog/store/category/mutation-types';
 
 export default (store) => store.subscribe((mutation, state) => {
   const type = mutation.type;
@@ -22,7 +23,7 @@ export default (store) => store.subscribe((mutation, state) => {
     }
   }
 
-  if (type.endsWith('')) {
-    // setSource('Category Page')
+  if (type.endsWith(categoryTypes.CATEGORY_UPD_CURRENT_CATEGORY)) {
+    setSource('Category Page')
   }
 })

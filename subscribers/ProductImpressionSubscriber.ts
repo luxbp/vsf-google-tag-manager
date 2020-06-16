@@ -12,19 +12,21 @@ export default (store) => store.subscribe((mutation, state) => {
   const payload = mutation.payload;
   const storeView = currentStoreView();
   if (type.endsWith(CATALOG_UPD_RELATED)) { // Related Products
+    let products = payload.items || [];
     dataLayer.push({
       'ecommerce': {
         'currencyCode': storeView.i18n.currencyCode,
-        'impressions': payload.items.map((product, index) => createProductData(product, {position: index}))
+        'impressions': products.map((product, index) => createProductData(product, {position: index}))
       }
     });
   }
 
   if (type.endsWith(CATALOG_UPD_PRODUCTS)) { // Category Pages
+    let products = payload.products || [];
     dataLayer.push({
       'ecommerce': {
         'currencyCode': storeView.i18n.currencyCode,
-        'impressions': payload.products.map((product, index) => createProductData(product, {position: index}))
+        'impressions': products.map((product, index) => createProductData(product, {position: index}))
       }
     });
   }

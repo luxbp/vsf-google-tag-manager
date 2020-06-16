@@ -23,7 +23,6 @@ export default (store) => store.subscribe((mutation, state) => {
 
   if (type.endsWith(CATALOG_UPD_PRODUCTS)) { // Category Pages
     let products = payload.products.items || [];
-    console.log('sourceset', products)
     dataLayer.push({
       'ecommerce': {
         'currencyCode': storeView.i18n.currencyCode,

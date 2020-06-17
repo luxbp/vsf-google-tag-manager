@@ -3,6 +3,10 @@ import config from 'config';
 
 declare const dataLayer;
 
+(function () {
+  // do work
+})();
+
 /**
  * Order Placed
  * @param store
@@ -19,6 +23,15 @@ export default (store) => store.subscribe((mutation, state) => {
       {refresh: true, useCache: false}
     ).then(() => {
       const orderHistory = state.user.orders_history;
+
+      // in the event this is empty, tag manager should pull order and tax from CartStateSubscriber
+      if (!orderHistory) {
+        dataLayer.push({
+          'event': 'purchase'
+        });
+        return;
+      }
+
       const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId);
       if (order) {
         dataLayer.push({

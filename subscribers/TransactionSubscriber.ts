@@ -13,7 +13,7 @@ export default (store) => store.subscribe((mutation, state) => {
 
   if (type.endsWith('order/order/LAST_ORDER_CONFIRMATION')) {
     const orderId = payload.confirmation.backendOrderId;
-    const products = payload.order.products.map(product => createProductData(product));
+    const products = payload.order.products.map((product, index) => createProductData(product, {position: index}));
     store.dispatch(
       'user/getOrdersHistory',
       {refresh: true, useCache: false}

@@ -27,7 +27,8 @@ export default (store) => store.subscribe((mutation, state) => {
       // in the event this is empty, tag manager should pull order and tax from CartStateSubscriber
       if (!orderHistory) {
         dataLayer.push({
-          'event': 'purchase'
+          'event': 'purchase',
+          'orderId': payload.confirmation.orderNumber || orderId
         });
         return;
       }
@@ -35,11 +36,12 @@ export default (store) => store.subscribe((mutation, state) => {
       const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId);
       if (order) {
         dataLayer.push({
-          'event': 'purchase',
+          'event': 'purchase', // custom
+          'orderId': payload.confirmation.orderNumber || orderId, // custom
           'ecommerce': {
             'purchase': {
               'actionField': {
-                'id': order.increment_id || orderId,
+                'id': payload.confirmation.orderNumber || orderId,
                 'affiliation': order.store_name,
                 'revenue': order.total_due,
                 'tax': order.tax_amount,

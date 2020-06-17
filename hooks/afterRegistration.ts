@@ -13,6 +13,7 @@ import PromotionImpression from '../subscribers/PromotionImpression';
 import PromotionClicks from '../subscribers/PromotionClicks';
 import CategoryImpressionSubscriber from '../subscribers/custom/CategoryImpressionSubscriber';
 import CheckoutFunnelSubscriber from '../subscribers/CheckoutFunnelSubscriber';
+import CartStateSubscriber from '../subscribers/custom/CartStateSubscriber';
 
 declare const window;
 
@@ -45,6 +46,7 @@ export function afterRegistration ({Vue, config, store, isServer}) {
       ProductImpressionSubscriber,
       ProductClickSubscriber,
       ProductDetailSubscriber,
+      CartStateSubscriber,
       ProductAddToCartSubscriber,
       ProductRemoveFromCartSubscriber,
       CheckoutFunnelSubscriber,

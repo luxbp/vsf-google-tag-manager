@@ -22,6 +22,7 @@ export default (store) => store.subscribe((mutation, state) => {
       const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId);
       if (order) {
         dataLayer.push({
+          'event': 'purchase',
           'ecommerce': {
             'purchase': {
               'actionField': {
